@@ -1,0 +1,12 @@
+version: "3.8"
+
+services:
+  imageflow:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - HTTP_PORT=:8080
+      - SHUTDOWN_TIMEOUT=5s
+      - ENV=local
+    restart: unless-stopped
