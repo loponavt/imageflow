@@ -1,0 +1,72 @@
+basePath: /api/v1
+definitions:
+  model.ImageTask:
+    properties:
+      filename:
+        type: string
+      id:
+        type: string
+      status:
+        description: e.g. pending, processing, done
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API for submitting and checking image processing tasks.
+  title: ImageFlow API
+  version: "1.0"
+paths:
+  /status:
+    get:
+      description: Get the status of image processing task by ID
+      parameters:
+      - description: Task ID
+        in: query
+        name: id
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/model.ImageTask'
+        "400":
+          description: id required
+          schema:
+            type: string
+        "404":
+          description: not found
+          schema:
+            type: string
+      summary: Get image task status
+      tags:
+      - images
+  /upload:
+    post:
+      consumes:
+      - application/json
+      description: Submit an image processing task with filename
+      parameters:
+      - description: Image filename
+        in: query
+        name: filename
+        required: true
+        type: string
+      produces:
+      - text/plain
+      responses:
+        "200":
+          description: 'task submitted: id'
+          schema:
+            type: string
+        "400":
+          description: filename required
+          schema:
+            type: string
+      summary: Upload image task
+      tags:
+      - images
+swagger: "2.0"

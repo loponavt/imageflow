@@ -23,6 +23,8 @@ services:
       - SHUTDOWN_TIMEOUT=5s
       - ENV=local
     restart: unless-stopped
+    networks:
+      - backend
 
 volumes:
   postgres_data:

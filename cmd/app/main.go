@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+
 	"imageflow/internal/delivery"
 	postgres "imageflow/internal/repository/postrges"
 	"log"
@@ -17,6 +18,11 @@ import (
 	"imageflow/internal/usecase"
 )
 
+// @title           ImageFlow API
+// @version         1.0
+// @description     API for submitting and checking image processing tasks.
+// @host            localhost:8080
+// @BasePath        /api/v1
 func main() {
 	logger.Init()
 	slog.Info("Starting ImageFlow app")
