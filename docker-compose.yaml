@@ -1,6 +1,19 @@
 version: "3.8"
 
 services:
+  db:
+    image: postgres:16
+    environment:
+      POSTGRES_DB: imageflow
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - backend
+
   imageflow:
     build: .
     ports:
@@ -10,3 +23,9 @@ services:
       - SHUTDOWN_TIMEOUT=5s
       - ENV=local
     restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  backend:

@@ -4,6 +4,8 @@ import (
 	"context"
 	"errors"
 	"imageflow/internal/delivery"
+	postgres "imageflow/internal/repository/postrges"
+	"log"
 	"log/slog"
 	"net/http"
 	"os"
@@ -12,7 +14,6 @@ import (
 
 	"imageflow/internal/config"
 	"imageflow/internal/logger"
-	"imageflow/internal/repository/memory"
 	"imageflow/internal/usecase"
 )
 
@@ -21,7 +22,10 @@ func main() {
 	slog.Info("Starting ImageFlow app")
 
 	cfg := config.Load()
-	repo := memory.NewInMemoryRepo()
+	repo, err := postgres.NewPostgresRepo("db", "5432", "postgres", "postgres", "imageflow")
+	if err != nil {
+		log.Fatal(err)
+	}
 	uc := usecase.NewImageUseCase(repo)
 	handler := delivery.NewHandler(cfg, uc)
 
