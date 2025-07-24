@@ -2,12 +2,19 @@ basePath: /api/v1
 definitions:
   model.ImageTask:
     properties:
+      created:
+        type: string
       filename:
         type: string
       id:
         type: string
       status:
-        description: e.g. pending, processing, done
+        description: pending, processing, done, failed
+        type: string
+      type:
+        description: e.g. resize, grayscale, blur
+        type: string
+      updated:
         type: string
     type: object
 host: localhost:8080
@@ -53,6 +60,11 @@ paths:
       - description: Image filename
         in: query
         name: filename
+        required: true
+        type: string
+      - description: 'Processing type: resize | grayscale | blur'
+        in: query
+        name: type
         required: true
         type: string
       produces:

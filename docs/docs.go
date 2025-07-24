@@ -76,6 +76,13 @@ const docTemplate = `{
                         "name": "filename",
                         "in": "query",
                         "required": true
+                    },
+                    {
+                        "type": "string",
+                        "description": "Processing type: resize | grayscale | blur",
+                        "name": "type",
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -99,6 +106,9 @@ const docTemplate = `{
         "model.ImageTask": {
             "type": "object",
             "properties": {
+                "created": {
+                    "type": "string"
+                },
                 "filename": {
                     "type": "string"
                 },
@@ -106,7 +116,14 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "status": {
-                    "description": "e.g. pending, processing, done",
+                    "description": "pending, processing, done, failed",
+                    "type": "string"
+                },
+                "type": {
+                    "description": "e.g. resize, grayscale, blur",
+                    "type": "string"
+                },
+                "updated": {
                     "type": "string"
                 }
             }
