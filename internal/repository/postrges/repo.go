@@ -36,3 +36,10 @@ func (r *Repo) Get(id string) (*model.ImageTask, error) {
 	}
 	return &task, nil
 }
+
+func (r *Repo) UpdateStatus(id, status string) error {
+	return r.db.Model(&model.ImageTask{}).
+		Where("id = ?", id).
+		Update("status", status).
+		Error
+}

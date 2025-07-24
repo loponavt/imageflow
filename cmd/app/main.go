@@ -3,6 +3,7 @@ package main
 import (
 	"context"
 	"errors"
+	"imageflow/internal/worker"
 
 	"imageflow/internal/delivery"
 	postgres "imageflow/internal/repository/postrges"
@@ -25,14 +26,20 @@ import (
 // @BasePath        /api/v1
 func main() {
 	logger.Init()
-	slog.Info("Starting ImageFlow app")
+	logger.Log.Info("Starting ImageFlow app")
 
 	cfg := config.Load()
 	repo, err := postgres.NewPostgresRepo("db", "5432", "postgres", "postgres", "imageflow")
 	if err != nil {
 		log.Fatal(err)
 	}
-	uc := usecase.NewImageUseCase(repo)
+
+	pool := worker.NewPool(4)
+	pool.Start()
+	defer pool.Stop()
+
+	uc := usecase.NewImageUseCase(repo, pool)
+
 	handler := delivery.NewHandler(cfg, uc)
 
 	go func() {
